@@ -284,7 +284,7 @@ if [ $platform = bgp ]; then
   $git_command apply $patch_file
 fi
 if [ $platform = bgl ]; then
-  $path_file="bgl-sockets.patch"
+  patch_file="bgl-sockets.patch"
   cp $script_dir/$patch_file ./
   $git_command apply $patch_file
 fi
