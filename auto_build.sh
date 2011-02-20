@@ -50,6 +50,7 @@ cp $script_dir/$file ./
 
 do_git()
 {
+if ! test -x $git_command || test "1" -eq "$rebuild_tools"; then
 rm -rf $base/source/git
 mkdir -p $base/source/git
 cd $base/source/git
@@ -59,31 +60,34 @@ tar -zxf $package.tar.gz
 cd $package
 ./configure --prefix=$git_install_dir
 $make_command && make install
+fi
 }
 
 
 do_cmake()
 {
+if ! test -x $cmake_command || test "1" -eq "$rebuild_tools"; then
 rm -rf $base/source/cmake
 mkdir -p $base/source/cmake
 cd $base/source/cmake
 
-package=cmake-2.8.3
-grab http://www.cmake.org/files/v2.8 $package.tar.gz
-tar -zxf $package.tar.gz
+grab $cmake_url $cmake_package.tar.gz
+tar -zxf $cmake_package.tar.gz
 
 mkdir build
 cd build
-../$package/bootstrap --prefix=$cmake_install_dir
+../$cmake_package/bootstrap --prefix=$cmake_install_dir
 $make_command && make install
 
 # install extra platform files
 cp $script_dir/cmake-platform-files/* $cmake_install_dir/share/cmake-2.8/Modules/Platform/
+fi
 }
 
 
 do_cmake_git()
 {
+if ! test -x $cmake_command || test "1" -eq "$rebuild_tools"; then
 rm -rf $base/source/cmake
 mkdir -p $base/source/cmake
 cd $base/source/cmake
@@ -96,51 +100,58 @@ $make_command && make install
 
 # install extra platform files
 cp $script_dir/cmake-platform-files/* $cmake_install_dir/share/cmake-2.8/Modules/Platform/
+fi
 }
 
 
 do_toolchains()
 {
+if ! test -x $cmake_command || test "1" -eq "$rebuild_tools"; then
 rm -rf $base/toolchains
 mkdir -p $base/toolchains
 cd $base/toolchains
 fname=`basename $toolchain_file`
 cp $script_dir/toolchains/$fname ./
 sed -i -e "s|XINSTALL_DIR|$xinstall_base|g" $toolchain_file 
+fi
 }
 
 
 do_python_download()
 {
+if ! test -f $base/source/python/$python_package.tgz || test "1" -eq "$redownload"; then
 mkdir -p $base/source/python
 cd $base/source/python
-package=Python-2.5.2
-grab http://www.python.org/ftp/python/2.5.2 $package.tgz
-rm -rf $package
-tar -zxf $package.tgz
+grab $python_url $python_package.tgz
+rm -rf $python_package
+tar -zxf $python_package.tgz
+fi
 }
 
 do_python_build_native()
 {
+if ! test -x $python_install_dir/bin/python || test "1" -eq "$rebuild_native_deps"; then
 cd $base/source/python
-source=Python-2.5.2
+source=$python_package
 rm -rf build-native
 mkdir build-native
 cd build-native
 ../$source/configure --prefix=$python_install_dir --enable-shared
 $make_command && make install
+fi
 }
 
 
 do_python_build_cross()
 {
+if ! test -x $python_xinstall_dir/bin/python || test "1" -eq "$rebuild_cross_deps"; then
 cd $base/source/python
-source=Python-2.5.2
+source=$python_package
 rm -rf $source-cmakeified
 cp -r $source $source-cmakeified
 source=$source-cmakeified
-cp $script_dir/add_cmake_files_to_python2-5-2.patch ./
-patch -p1 -d $source < add_cmake_files_to_python2-5-2.patch
+cp $script_dir/$python_cmake_patch ./
+patch -p1 -d $source < $python_cmake_patch
 
 rm -rf build-cross
 mkdir build-cross
@@ -163,38 +174,42 @@ $cmake_command \
   ../$source
 
 $make_command && make install
-
+fi
 }
 
 
 do_osmesa_download()
 {
+if ! test -f $base/source/mesa/$osmesa_package.tar.gz || test "1" -eq "$redownload"; then
 mkdir -p $base/source/mesa
 cd $base/source/mesa
-package=MesaLib-7.6.1
-grab ftp://ftp.freedesktop.org/pub/mesa/7.6.1 $package.tar.gz
+grab $osmesa_url $osmesa_package.tar.gz
 
-rm -rf Mesa-7.6.1
-tar -zxf $package.tar.gz
+rm -rf $osmesa_package
+tar -zxf $osmesa_package.tar.gz
+fi
 }
 
 do_osmesa_build_native()
 {
+if ! test -f $osmesa_install_dir/lib/libGLU.so || test "1" -eq "$rebuild_native_deps"; then
 cd $base/source/mesa
 rm -rf build-native
-cp -r Mesa-7.6.1 build-native
+cp -r $mesa_package build-native
 cd build-native
 cp configs/linux-osmesa configs/linux-osmesa.original
 cp $script_dir/linux-osmesa configs/linux-osmesa
 sed -i.original -e 's|INSTALL_DIR = /usr/local|INSTALL_DIR = '$osmesa_install_dir'|g' configs/default
 $make_command linux-osmesa && make install
+fi
 }
 
 do_osmesa_build_cross()
 {
+if ! test -f $osmesa_xinstall_dir/lib/libGLU.so || test "1" -eq "$rebuild_cross_deps"; then
 cd $base/source/mesa
 rm -rf build-cross
-cp -r Mesa-7.6.1 build-cross
+cp -r $mesa_package build-cross
 cd build-cross
 
 cp $script_dir/$osmesa_config_name configs/
@@ -202,10 +217,12 @@ sed -i.original -e 's|linux-osmesa-static|'$osmesa_config_name'|g' Makefile
 sed -i.original -e 's|INSTALL_DIR = /usr/local|INSTALL_DIR = '$osmesa_xinstall_dir'|g' configs/default
 
 $make_command $osmesa_config_name && make install
+fi
 }
 
 do_paraview_download()
 {
+if ! test -f $base/source/paraview/ParaView || test "1" -eq "$redownload"; then
 mkdir -p $base/source/paraview
 cd $base/source/paraview
 rm -rf ParaView
@@ -214,11 +231,13 @@ package=ParaView-3.8.0
 grab http://paraview.org/files/v3.8/ParaView-3.8.0.tar.gz $package.tar.gz
 tar -zxf $package.tar.gz
 mv $package ParaView
+fi
 }
 
 
 do_paraview_download_git()
 {
+if ! test -f $base/source/paraview/ParaView || test "1" -eq "$redownload"; then
 mkdir -p $base/source/paraview
 cd $base/source/paraview
 rm -rf ParaView
@@ -264,33 +283,39 @@ if [ $platform = bgp ]; then
   cp $script_dir/$patch_file ./
   $git_command apply $patch_file
 fi
-
+fi
 }
 
 
 do_paraview_configure_native()
 {
+if ! test -f $base/source/paraview/build-native/CMakeCache.txt || test "1" -eq "$rebuild_native_deps"; then
 rm -rf $base/source/paraview/build-native
 mkdir -p $base/source/paraview/build-native
 cd $base/source/paraview/build-native
 bash $script_dir/configure_paraview_native.sh ../ParaView $paraview_install_dir $osmesa_install_dir $python_install_dir $cmake_command
+fi
 }
 
 
 do_paraview_configure_hosttools()
 {
+if ! test -f $base/source/paraview/build-hosttools/CMakeCache.txt || test "1" -eq "$rebuild_native_deps"; then
 rm -rf $base/source/paraview/build-hosttools
 mkdir -p $base/source/paraview/build-hosttools
 cd $base/source/paraview/build-hosttools
 bash $script_dir/configure_paraview_hosttools.sh ../ParaView $paraview_install_dir $osmesa_install_dir $python_install_dir $cmake_command
+fi
 }
 
 do_paraview_configure_cross()
 {
+if ! test -f $base/source/paraview/build-cross/CMakeCache.txt || test "1" -eq "$rebuild_cross_deps"; then
 rm -rf $base/source/paraview/build-cross
 mkdir -p $base/source/paraview/build-cross
 cd $base/source/paraview/build-cross
 bash $script_dir/configure_paraview_cross.sh ../ParaView $paraview_xinstall_dir $osmesa_xinstall_dir $python_xinstall_dir $cmake_command $toolchain_file $base/source/paraview/build-hosttools "$paraview_cross_cxx_flags"
+fi
 }
 
 do_paraview_build_native()
