@@ -222,7 +222,7 @@ fi
 
 do_paraview_download()
 {
-if ! test -f $base/source/paraview/ParaView || test "1" -eq "$redownload"; then
+if ! test -d $base/source/paraview/ParaView || test "1" -eq "$redownload"; then
 mkdir -p $base/source/paraview
 cd $base/source/paraview
 rm -rf ParaView
@@ -237,7 +237,7 @@ fi
 
 do_paraview_download_git()
 {
-if ! test -f $base/source/paraview/ParaView || test "1" -eq "$redownload"; then
+if ! test -d $base/source/paraview/ParaView || test "1" -eq "$redownload"; then
 mkdir -p $base/source/paraview
 cd $base/source/paraview
 rm -rf ParaView
