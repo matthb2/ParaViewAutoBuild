@@ -1,7 +1,8 @@
 
 #platform=bgl
 #platform=bgp
-platform=eureka
+#platform=eureka
+platform=modern_linux
 #platform=jaguarpf
 #platform=jaguarpfgcc
 set_common_options()
@@ -19,6 +20,7 @@ set_common_options()
   osmesa_file="MesaLib-7.6.1" #actual tarball - handle naming inconsistency
   osmesa_package="Mesa-7.6.1"
   osmesa_url="ftp://ftp.freedesktop.org/pub/mesa/7.6.1/"
+  skip_python="0"
   threads="-j3"
 }
 set_bgl_options()
@@ -45,6 +47,13 @@ set_eureka_options()
 {
   make_command="make $threads"
 }
+set_modern_linux_options()
+{
+  skip_python="1"
+  python_install_dir="/usr"
+  make_command="make $threads"
+}
+
 
 set_jaguarpf_options()
 {

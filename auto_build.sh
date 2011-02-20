@@ -21,7 +21,9 @@ git_install_dir=$install_base/git-1.7.3
 cmake_install_dir=$install_base/cmake-2.8.3
 osmesa_install_dir=$install_base/osmesa-7.6.1
 osmesa_xinstall_dir=$xinstall_base/osmesa-7.6.1
+if ! test "1" -eq "$skip_python"; then
 python_install_dir=$install_base/python-2.5.2
+fi
 python_xinstall_dir=$xinstall_base/python-2.5.2
 paraview_install_dir=$install_base/paraview
 paraview_xinstall_dir=$xinstall_base/paraview
@@ -349,8 +351,10 @@ do_paraview_native_prereqs()
 do_git
 do_cmake
 #do_cmake_git
+if ! test "1" -eq "$skip_python"; then
 do_python_download
 do_python_build_native
+fi
 do_osmesa_download
 do_osmesa_build_native
 #do_paraview_download
