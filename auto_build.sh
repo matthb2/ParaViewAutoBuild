@@ -326,6 +326,7 @@ fi
 do_paraview_build_native()
 {
 cd $base/source/paraview/build-native
+LD_LIBRARY_PATH=$python_install_dir/lib:$LD_LIBRARY_PATH
 $make_command
 }
 
