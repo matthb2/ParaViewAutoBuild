@@ -180,7 +180,7 @@ fi
 
 do_osmesa_download()
 {
-if ! test -f $base/source/mesa/$osmesa_package.tar.gz || test "1" -eq "$redownload"; then
+if ! test -f $base/source/mesa/$osmesa_file.tar.gz || test "1" -eq "$redownload"; then
 mkdir -p $base/source/mesa
 cd $base/source/mesa
 grab $osmesa_url $osmesa_file.tar.gz
