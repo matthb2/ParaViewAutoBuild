@@ -16,8 +16,9 @@ set_common_options()
   python_cmake_patch="add_cmake_files_to_python2-5-2.patch"
   cmake_package="cmake-2.8.3"
   cmake_url="http://www.cmake.org/files/v2.8"
-  osmesa_package="MesaLib-7.6.1"
-  osmesa_url="ftp://ftp.freedesktop.org/pub/mesa/7.6.1"
+  osmesa_file="MesaLib-7.6.1" #actual tarball - handle naming inconsistency
+  osmesa_package="Mesa-7.6.1"
+  osmesa_url="ftp://ftp.freedesktop.org/pub/mesa/7.6.1/"
   threads="-j3"
 }
 set_bgl_options()

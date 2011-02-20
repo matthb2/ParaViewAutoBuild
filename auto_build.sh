@@ -183,10 +183,10 @@ do_osmesa_download()
 if ! test -f $base/source/mesa/$osmesa_package.tar.gz || test "1" -eq "$redownload"; then
 mkdir -p $base/source/mesa
 cd $base/source/mesa
-grab $osmesa_url $osmesa_package.tar.gz
+grab $osmesa_url $osmesa_file.tar.gz
 
-rm -rf $osmesa_package
-tar -zxf $osmesa_package.tar.gz
+rm -rf $osmesa_file
+tar -zxf $osmesa_file.tar.gz
 fi
 }
 
@@ -195,7 +195,7 @@ do_osmesa_build_native()
 if ! test -f $osmesa_install_dir/lib/libGLU.so || test "1" -eq "$rebuild_native_deps"; then
 cd $base/source/mesa
 rm -rf build-native
-cp -r $mesa_package build-native
+cp -r $osmesa_package build-native
 cd build-native
 cp configs/linux-osmesa configs/linux-osmesa.original
 cp $script_dir/linux-osmesa configs/linux-osmesa
