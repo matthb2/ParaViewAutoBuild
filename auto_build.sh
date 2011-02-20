@@ -106,7 +106,7 @@ fi
 
 do_toolchains()
 {
-if ! test -x $cmake_command || test "1" -eq "$rebuild_tools"; then
+if ! test -d $base/toolchains || test "1" -eq "$rebuild_tools"; then
 rm -rf $base/toolchains
 mkdir -p $base/toolchains
 cd $base/toolchains
@@ -326,7 +326,8 @@ fi
 do_paraview_build_native()
 {
 cd $base/source/paraview/build-native
-LD_LIBRARY_PATH=$python_install_dir/lib:$LD_LIBRARY_PATH
+export PYTHONHOME=$python_install_dir
+export LD_LIBRARY_PATH=$python_install_dir/lib:$LD_LIBRARY_PATH
 $make_command
 }
 
