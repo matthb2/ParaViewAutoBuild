@@ -183,7 +183,10 @@ $cmake_command \
   -DCMAKE_INSTALL_PREFIX=$python_xinstall_dir \
   -C ../$source/CMake/TryRunResults-Python-bgl-gcc.cmake \
   ../$source
-
+if [ $platform = bgp ]; then
+  #kluge to get cmake to statically link modules
+  sed -i '/MODULE__.*_SHARED:BOOL=ON/s/ON/OFF/g' CMakeCache.txt
+fi  
 $make_command && make install
 fi
 }
@@ -352,6 +355,13 @@ do_paraview_build_cross()
 {
 cd $base/source/paraview/build-cross
 $make_command
+if [$platform = bgp ]; then
+  #circumvent CMake.. horrible.. please fix me
+  cp $script_dir/bgp-link-kluge.sh ./
+  make
+  bash bgp-link-kluge.sh "$base/source"
+  make
+fi
 }
 
 
