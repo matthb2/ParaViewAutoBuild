@@ -222,7 +222,7 @@ do_osmesa_build_cross()
 {
 if ! test -f $osmesa_xinstall_dir/lib/libGLU.so || test "1" -eq "$rebuild_cross_deps"; then
 cd $base/source/mesa
-rm -rf build-crogit://github.com/matthb2/ParaViewAutoBuild.gitss
+rm -rf build-cross
 cp -r $osmesa_package build-cross
 cd build-cross
 
