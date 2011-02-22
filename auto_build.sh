@@ -169,6 +169,17 @@ $cmake_command \
   -DHAVE_GETGROUPS:BOOL=0 \
   -DHAVE_SETGROUPS:BOOL=0 \
   -DENABLE_IPV6:BOOL=0 \
+  -DMODULE_math_ENABLE:BOOL=ON \
+  -DMODULE_cmath_ENABLE:BOOL=ON \
+  -DMODULE__sre_ENABLE:BOOL=ON \
+  -DMODULE__weakref_ENABLE:BOOL=ON \
+  -DMODULE_array_ENABLE:BOOL=ON \
+  -DMODULE_errno_ENABLE:BOOL=ON \
+  -DMODULE_fcntl_ENABLE:BOOL=ON \
+  -DMODULE_grp_ENABLE:BOOL=ON \
+  -DMODULE_operator_ENABLE:BOOL=ON \
+  -DMODULE_posix_ENABLE:BOOL=ON \
+  -DMODULE_pwd_ENABLE:BOOL=ON \
   -DCMAKE_INSTALL_PREFIX=$python_xinstall_dir \
   -C ../$source/CMake/TryRunResults-Python-bgl-gcc.cmake \
   ../$source
