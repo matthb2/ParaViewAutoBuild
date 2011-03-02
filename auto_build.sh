@@ -357,9 +357,9 @@ cd $base/source/paraview/build-cross
 $make_command
 if [ $platform = bgp ]; then
   #circumvent CMake.. horrible.. please fix me
-  cp $script_dir/bgp-link-kluge.sh ./
-  make
-  bash bgp-link-kluge.sh "$base"
+  #cp $script_dir/bgp-link-kluge.sh ./
+  #make
+  #bash bgp-link-kluge.sh "$base"
   make
 fi
 }

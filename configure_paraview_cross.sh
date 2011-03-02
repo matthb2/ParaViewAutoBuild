@@ -38,6 +38,7 @@ $cmake_command \
 -DBUILD_FORTRAN_COPROCESSING_ADAPTORS=1 \
 -DBUILD_PYTHON_COPROCESSING_ADAPTOR=1 \
 -DBUILD_PHASTA_ADAPTOR=1 \
+-DPYTHON_UTIL_LIBRARY=/bgsys/drivers/ppcfloor/gnu-linux/powerpc-bgp-linux/lib/libdl.a \
 -C $paraview_source_dir/CMake/TryRunResults-ParaView3-bgl-xlc.cmake \
 $paraview_source_dir
 
