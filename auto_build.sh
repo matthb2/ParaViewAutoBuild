@@ -18,7 +18,7 @@ fi
 install_base=$base/install
 xinstall_base=$base/install/cross
 git_install_dir=$install_base/git-1.7.3
-cmake_install_dir=$install_base/cmake-2.8.3
+cmake_install_dir=$install_base/cmake-2.8.4
 osmesa_install_dir=$install_base/osmesa-7.6.1
 osmesa_xinstall_dir=$xinstall_base/osmesa-7.6.1
 python_install_dir=$install_base/python-2.5.2
@@ -80,7 +80,7 @@ cd build
 $make_command && make install
 
 # install extra platform files
-cp $script_dir/cmake-platform-files/* $cmake_install_dir/share/cmake-2.8/Modules/Platform/
+#cp $script_dir/cmake-platform-files/* $cmake_install_dir/share/cmake-2.8/Modules/Platform/
 fi
 }
 

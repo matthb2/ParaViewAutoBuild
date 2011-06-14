@@ -14,7 +14,7 @@ set_common_options()
   python_package="Python-2.5.2"
   python_url="http://www.python.org/ftp/python/2.5.2"
   python_cmake_patch="add_cmake_files_to_python2-5-2.patch"
-  cmake_package="cmake-2.8.3"
+  cmake_package="cmake-2.8.4"
   cmake_url="http://www.cmake.org/files/v2.8"
   osmesa_file="MesaLib-7.6.1" #actual tarball - handle naming inconsistency
   osmesa_package="Mesa-7.6.1"
@@ -34,9 +34,9 @@ set_bgl_options()
 set_bgp_options()
 {
   
-  toolchain_file=BlueGeneP-xl-static.cmake
+  toolchain_file=BlueGeneP-gnu-static.cmake
   make_command="make $threads"
-  paraview_cross_cxx_flags="-O2 -qstrict -qarch=450d -qtune=450 -qcpluscmt"
+  paraview_cross_cxx_flags="-O2"
   osmesa_config_name=bgp-osmesa-xlc
 }
 
